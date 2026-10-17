@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Currículum Vítae - Patricio Vejar Olivares</title>
+  <meta name="author" content="Patricio Vejar Olivares">
+  <meta name="description" content="Currículum Vítae de Patricio Vejar Olivares, estudiante de Ingeniería en Computación y desarrollador de videojuegos.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <style>
+    /* Formato basado en la plantilla "Formato Currículum Vítae" (carta, Calibri).
+       Pensado también para lectura automática (ATS / LLM): texto real seleccionable,
+       orden de lectura lineal, sin ligaduras, fechas uniformes y URLs completas. */
+    @page { size: Letter; margin: 20mm 22mm; }
+    * { box-sizing: border-box; }
+    html { background: #e9ebf3; }
+    body {
+      margin: 0; font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size: 11pt; line-height: 1.3; color: #000;
+      font-variant-ligatures: none; font-feature-settings: "liga" 0, "clig" 0;
+    }
+    .page { width: 215.9mm; min-height: 279.4mm; margin: 24px auto; padding: 20mm 22mm; background: #fff; box-shadow: 0 10px 40px rgba(20, 30, 70, 0.15); }
+    @media print { html { background: #fff; } .page { width: auto; min-height: 0; margin: 0; padding: 0; box-shadow: none; } }
+    @media screen and (max-width: 860px) { .page { width: auto; margin: 0; padding: 20px 16px; } }
+
+    h1 { text-align: center; font-size: 14pt; font-weight: 700; margin: 0 0 4mm; }
+    .name { text-align: center; font-weight: 700; font-size: 12pt; margin: 0 0 1.5mm; }
+    .contact { text-align: center; font-size: 10pt; margin: 0 0 5mm; }
+    .contact a { color: #000; text-decoration: none; }
+    h2 { font-size: 11pt; font-weight: 700; text-decoration: underline; margin: 5.5mm 0 2.5mm; }
+    p { margin: 0 0 2mm; text-align: justify; }
+
+    .entry { display: grid; grid-template-columns: 38mm 1fr; margin-bottom: 3.5mm; break-inside: avoid; }
+    .entry .when { font-weight: 700; }
+    .job { display: grid; grid-template-columns: 38mm 19mm 1fr; margin-bottom: 3.5mm; break-inside: avoid; }
+    .job .when { font-weight: 700; grid-row: span 3; padding-right: 2mm; }
+    .job .k { grid-column: 2; }
+    .job .v { grid-column: 3; text-align: justify; }
+
+    ul.plain { margin: 0 0 2mm; padding-left: 5mm; }
+    ul.plain li { margin-bottom: 1mm; }
+    .k-inline { font-weight: 700; }
+    .note { font-style: italic; }
+    a { color: #000; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <h1>CURRÍCULUM VÍTAE</h1>
+    <p class="name">Patricio Vejar Olivares</p>
+    <p class="contact">
+      La Serena, Chile | Correo: <a href="mailto:astradocharacther@gmail.com">astradocharacther@gmail.com</a><br>
+      Portafolio: <a href="https://astrado-dgm.github.io">https://astrado-dgm.github.io</a> |
+      LinkedIn: <a href="https://www.linkedin.com/in/patricio-vejar-olivares-07b4753bb">https://www.linkedin.com/in/patricio-vejar-olivares-07b4753bb</a><br>
+      GitHub: <a href="https://github.com/Astrado-DGM">https://github.com/Astrado-DGM</a> |
+      itch.io: <a href="https://astrado-realm.itch.io">https://astrado-realm.itch.io</a>
+    </p>
+
+    <h2>Perfil Profesional</h2>
+    <p>Estudiante de Ingeniería en Computación en la Universidad de La Serena (egreso estimado 2027), enfocado en el desarrollo de videojuegos y la narrativa interactiva. Experiencia como Project Manager en el Software Factory Lab de la universidad, en desarrollo web y en desarrollo con Unity, Python y C#. Como Dungeon Master de varios juegos de rol con múltiples grupos, he diseñado mecánicas de juego propias centradas en la adaptabilidad narrativa y la diversión de los jugadores. Interesado en generación procedural, diseño de juegos y creación de herramientas; combino programación con producción de arte, audio y video. Inglés nivel B2.</p>
+
+    <h2>Formación académica</h2>
+    <div class="entry">
+      <div class="when">2023 - 2027</div>
+      <div class="what">
+        <div>Ingeniería en Computación (en curso)</div>
+        <div>Universidad de La Serena, La Serena, Chile</div>
+        <div>Formación en programación, estructuras de datos, programación orientada a objetos, bases de datos, ingeniería de software y matemáticas aplicadas.</div>
+      </div>
+    </div>
+
+    <h2>Experiencia</h2>
+    <div class="job">
+      <div class="when">Ene 2026 - Dic 2026</div>
+      <div class="k">Empresa:</div><div class="v">Software Factory Lab (SFL), Universidad de La Serena (voluntariado)</div>
+      <div class="k">Cargo:</div><div class="v">Project Manager</div>
+      <div class="k">Función:</div><div class="v">Gestión de proyectos, desarrollo web y desarrollo en Unity.</div>
+    </div>
+    <div class="job">
+      <div class="when">Abr 2026 - Presente</div>
+      <div class="k">Empresa:</div><div class="v">Proyecto personal: AVNM</div>
+      <div class="k">Cargo:</div><div class="v">Desarrollador</div>
+      <div class="k">Función:</div><div class="v">Diseño y desarrollo en C# (.NET) de un game engine propio enfocado en la creación y ejecución de novelas visuales, con diálogo ramificado semiautomático basado en autómatas.</div>
+    </div>
+    <div class="job">
+      <div class="when">May 2026 - Oct 2026</div>
+      <div class="k">Empresa:</div><div class="v">Proyecto personal: Astrados Audio Handler</div>
+      <div class="k">Cargo:</div><div class="v">Desarrollador</div>
+      <div class="k">Función:</div><div class="v">Diseño y desarrollo en Python de una aplicación de escritorio para Windows que mezcla micrófono, música en loop y efectos de sonido en una sola salida de audio, con filtro de micrófono, ducking, atajos de teclado e instaladores .exe y .msi. Versión 1.0.0 publicada.</div>
+    </div>
+    <div class="job">
+      <div class="when">Dic 2025 - Oct 2026</div>
+      <div class="k">Empresa:</div><div class="v">Proyecto personal: Astrados Transfer</div>
+      <div class="k">Cargo:</div><div class="v">Desarrollador</div>
+      <div class="k">Función:</div><div class="v">Diseño y desarrollo en Python de un descargador de música de YouTube con interfaz estilo reproductor MP3, detección de canciones y playlists, cancelación de descargas e instaladores .exe y .msi. Versión 1.0 publicada.</div>
+    </div>
+    <div class="job">
+      <div class="when">Ene 2026 - Oct 2026</div>
+      <div class="k">Empresa:</div><div class="v">Universidad de La Serena (proyectos de desarrollo en equipo)</div>
+      <div class="k">Cargo:</div><div class="v">Desarrollador</div>
+      <div class="k">Función:</div><div class="v">Uno de los principales contribuidores de CampusOne, plataforma digital modular para la comunidad universitaria, y de la página web de la Escuela de Ingeniería en Computación e Informática. Participación en PATOVER, plataforma para administrar eventos universitarios.</div>
+    </div>
+    <div class="job">
+      <div class="when">Presente</div>
+      <div class="k">Empresa:</div><div class="v">Juegos de rol de mesa (múltiples grupos)</div>
+      <div class="k">Cargo:</div><div class="v">Dungeon Master</div>
+      <div class="k">Función:</div><div class="v">Dirección de partidas para varios grupos de jugadores y diseño de mecánicas propias enfocadas en la adaptabilidad narrativa y la diversión de los jugadores.</div>
+    </div>
+    <div class="job">
+      <div class="when">2024</div>
+      <div class="k">Empresa:</div><div class="v">Game jam universitaria, Universidad de La Serena</div>
+      <div class="k">Cargo:</div><div class="v">Desarrollador</div>
+      <div class="k">Función:</div><div class="v">Diseño y desarrollo de Invasión Al Faro, un juego completo en GameMaker (GML) en 11 días.</div>
+    </div>
+
+    <h2>Habilidades y otros datos de interés</h2>
+    <ul class="plain">
+      <li><span class="k-inline">Lenguajes de programación:</span> C#, Python, Java, C, JavaScript, SQL, HTML, CSS, GML.</li>
+      <li><span class="k-inline">Motores de juego:</span> Unity, GameMaker.</li>
+      <li><span class="k-inline">Ingeniería de software:</span> programación orientada a objetos, estructuras de datos, bases de datos, UML, Scrum, metodologías ágiles, gestión de proyectos.</li>
+      <li><span class="k-inline">Arte, audio y video:</span> Blender, Krita, GIMP, LibreSprite, FL Studio, Audacity, Kdenlive.</li>
+      <li><span class="k-inline">Herramientas:</span> Git, GitHub, Visual Studio Code, Jupyter, Ghostwriter.</li>
+      <li><span class="k-inline">Idiomas:</span> español (nativo), inglés (B2).</li>
+      <li><span class="k-inline">Otros proyectos:</span> Almanac Alquimist (prueba de concepto para un juego roguelike en Unity), Crivo (encriptación con transformada de Fourier), colecciones de proyectos en Java y Python, y una biblioteca de estructuras de datos en C.</li>
+    </ul>
+
+    <h2>Referencias</h2>
+    <p class="note">Disponibles a solicitud.</p>
+  </div>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Astrado · Patricio Vejar</title>
+  <meta name="description" content="Astrado (Patricio Vejar): desarrollador de videojuegos y estudiante de Ingeniería en Computación. Portafolio, currículum, bitácora y fuentes útiles.">
+  <meta name="theme-color" content="#060a1f">
+  <meta property="og:title" content="Astrado · Patricio Vejar">
+  <meta property="og:description" content="Portafolio, currículum, bitácora y fuentes útiles.">
+  <meta property="og:image" content="assets/img/star4.webp">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="skybox" aria-hidden="true"></div>
+  <canvas id="sky" aria-hidden="true"></canvas>
+  <div class="nebula" aria-hidden="true"></div>
+  <a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
+
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="Inicio">
+      <span class="brand-star" aria-hidden="true"></span>
+      <span class="brand-text">Astrado</span>
+    </a>
+    <nav id="nav" class="nav" aria-label="Secciones"></nav>
+    <div class="tools">
+      <button id="langBtn" class="tool" type="button" aria-label="Cambiar idioma"></button>
+      <button id="soundBtn" class="tool" type="button" aria-pressed="false"></button>
+      <button id="menuBtn" class="tool menu-btn" type="button" aria-expanded="false" aria-controls="nav"></button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- INICIO -->
+    <section id="inicio" class="hero">
+      <div class="hero-copy reveal">
+        <p class="eyebrow" data-i18n="hello">Hola, viajero. Soy</p>
+        <h1 class="hero-title"><span id="heroAlias"></span></h1>
+        <p class="hero-name" id="heroName"></p>
+        <p class="hero-role" id="heroRole"></p>
+        <p class="hero-tagline" id="heroTagline"></p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#proyectos" data-i18n="ctaProjects">Ver proyectos</a>
+          <a class="btn btn-ghost" href="#contacto" data-i18n="ctaContact">Contactar</a>
+        </div>
+        <ul class="hero-links" id="heroLinks"></ul>
+      </div>
+      <div class="hero-art reveal" aria-hidden="true">
+        <div class="orbit orbit-1"><span class="moon"></span></div>
+        <div class="orbit orbit-2"><span class="moon moon-sm"></span></div>
+        <div class="star">
+          <span class="star-glow"></span>
+          <img class="star4" src="assets/img/star4.webp" alt="" width="720" height="719">
+          <img class="star-cross" src="assets/img/flare-9.webp" alt="">
+        </div>
+        <img class="avatar" id="heroAvatar" alt="" width="120" height="120">
+        <img class="flare flare-a" src="assets/img/flare-19.webp" alt="">
+      </div>
+      <a class="scroll-hint" href="#sobre-mi" aria-label="Bajar"><span></span></a>
+    </section>
+
+    <!-- SOBRE MÍ -->
+    <section id="sobre-mi" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">I</p>
+        <h2 data-i18n="navAbout">Sobre mí</h2>
+      </header>
+      <div class="about reveal">
+        <figure class="photo" id="aboutPhoto"></figure>
+        <div class="about-text" id="aboutText"></div>
+        <dl class="facts" id="aboutFacts"></dl>
+      </div>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section id="proyectos" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">II</p>
+        <h2 data-i18n="navProjects">Proyectos</h2>
+        <p class="section-sub" data-i18n="projectsSub">Constelación de cosas que he construido.</p>
+      </header>
+      <div class="filters reveal" id="projectFilters" role="toolbar" aria-label="Filtrar proyectos"></div>
+      <div class="projects" id="projectGrid"></div>
+      <div class="collab reveal" id="collabWrap">
+        <h3 data-i18n="collabTitle">Colaboraciones</h3>
+        <p class="muted small" data-i18n="collabSub">Proyectos de equipo en los que participo (repositorios privados).</p>
+        <div class="projects" id="collabGrid"></div>
+      </div>
+      <div class="upcoming reveal">
+        <h3 data-i18n="upcomingTitle">Próximamente</h3>
+        <p class="muted small" data-i18n="upcomingSub">Juegos por venir. Aún ocultos entre las estrellas.</p>
+        <ul class="upcoming-grid" id="upcomingGrid"></ul>
+      </div>
+      <div class="live reveal">
+        <h3 data-i18n="liveTitle">Más repositorios</h3>
+        <p class="muted small" data-i18n="liveSub">Cargados en vivo desde GitHub.</p>
+        <ul class="repo-list" id="repoList"></ul>
+      </div>
+    </section>
+
+    <!-- CURRÍCULUM -->
+    <section id="curriculum" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">III</p>
+        <h2 data-i18n="navCv">Currículum</h2>
+      </header>
+      <div class="cv reveal">
+        <div class="cv-col">
+          <h3 data-i18n="cvEducation">Formación</h3>
+          <ol class="timeline" id="cvEducation"></ol>
+          <h3 data-i18n="cvExperience">Experiencia</h3>
+          <ol class="timeline" id="cvExperience"></ol>
+        </div>
+        <aside class="cv-col cv-skills">
+          <h3 data-i18n="cvSkills">Habilidades</h3>
+          <div id="cvSkills"></div>
+          <a class="btn btn-primary" id="cvPdf" hidden download></a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- BITÁCORA -->
+    <section id="bitacora" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">IV</p>
+        <h2 data-i18n="navLog">Bitácora</h2>
+        <p class="section-sub" data-i18n="logSub">Registro de vuelo: lo que voy haciendo y aprendiendo.</p>
+      </header>
+      <div class="filters reveal" id="logFilters" role="toolbar" aria-label="Filtrar bitácora"></div>
+      <ol class="log" id="logList"></ol>
+    </section>
+
+    <!-- FUENTES -->
+    <section id="fuentes" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">V</p>
+        <h2 data-i18n="resourcesTitle">Fuentes útiles</h2>
+        <p class="section-sub" data-i18n="resourcesSub">Mapa estelar de recursos que uso y recomiendo.</p>
+      </header>
+      <label class="search reveal">
+        <span class="sr-only" data-i18n="searchLabel">Buscar fuentes</span>
+        <span id="searchIcon"></span>
+        <input id="resourceSearch" type="search" autocomplete="off">
+      </label>
+      <div class="resources" id="resourceList"></div>
+      <p class="muted center" id="resourceEmpty" hidden data-i18n="noResults">Nada en esta región del cielo.</p>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="section">
+      <header class="section-head reveal">
+        <p class="section-kicker">VI</p>
+        <h2 data-i18n="navContact">Contacto</h2>
+        <p class="section-sub" data-i18n="contactSub">Envía una señal. Respondo en cuanto la reciba.</p>
+      </header>
+      <div class="contact reveal">
+        <ul class="contact-links" id="contactLinks"></ul>
+        <form class="contact-form glass" id="contactForm" novalidate>
+          <label><span data-i18n="formName">Nombre</span><input name="name" required autocomplete="name"></label>
+          <label><span data-i18n="formEmail">Correo</span><input name="email" type="email" required autocomplete="email"></label>
+          <label><span data-i18n="formMessage">Mensaje</span><textarea name="message" rows="5" required></textarea></label>
+          <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button class="btn btn-primary" type="submit" id="formSubmit"></button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Patricio Vejar · Astrado</p>
+    <details class="credits">
+      <summary data-i18n="credits">Créditos de recursos</summary>
+      <ul>
+        <li>Icons: <a href="https://heroicons.com" target="_blank" rel="noopener">Heroicons</a> by Tailwind Labs — MIT License</li>
+        <li>Background pattern: <a href="https://heropatterns.com" target="_blank" rel="noopener">Hero Patterns</a> by Steve Schoger — CC BY 4.0</li>
+        <li>Sounds: <a href="https://heltonyan.itch.io/tranquility" target="_blank" rel="noopener">Helton Yan's Tranquility</a> by Helton Yan &amp; Roberto Araujo — CC BY 4.0 (recortados y convertidos)</li>
+        <li>UI sounds: <a href="https://soundicons.net/en/" target="_blank" rel="noopener">SOUNDICONS</a> by BRAINSTORM co.,ltd.</li>
+        <li>Four-point star: <a href="https://www.vecteezy.com" target="_blank" rel="noopener">Vecteezy.com</a></li>
+        <li>Space skybox: <a href="https://www.kenney.nl" target="_blank" rel="noopener">Kenney</a> — CC0</li>
+        <li>Graphics: Asadal (asadal.com), via <a href="https://frutigeraeroarchive.org/" target="_blank" rel="noopener">Frutiger Aero Archive</a>. Some images belong to their respective authors.</li>
+      </ul>
+    </details>
+  </footer>
+
+  <script src="js/icons.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
