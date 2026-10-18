@@ -27,7 +27,9 @@ Todo está en [`js/content.js`](js/content.js). Cada texto traducible es `{ es: 
 - **Más enlaces** (LinkedIn, itch.io…): descomenta o agrega en `links`.
 - Busca `TODO` para ver los datos que faltan completar.
 
-La sección "Más repositorios" se carga sola desde la API de GitHub para las cuentas en `liveRepos`.
+Cada proyecto tiene `category` (una clave de `categories`: games, apps, engines, web, academic), `scope` (personal, team, university) y `tech` (solo tecnologías). Los filtros de Categoría y Tecnología se arman solos a partir de esos campos.
+
+La sección "Más repositorios" (carga en vivo desde la API de GitHub) está desactivada; se activa poniendo cuentas en `liveRepos.users`.
 
 ## Formulario de contacto (Formspree)
 

@@ -83,16 +83,22 @@
         <h2 data-i18n="navProjects">Proyectos</h2>
         <p class="section-sub" data-i18n="projectsSub">Constelación de cosas que he construido.</p>
       </header>
-      <div class="filters reveal" id="projectFilters" role="toolbar" aria-label="Filtrar proyectos"></div>
-      <div class="projects" id="projectGrid"></div>
-      <div class="collab reveal" id="collabWrap">
-        <h3 data-i18n="collabTitle">Colaboraciones</h3>
-        <p class="muted small" data-i18n="collabSub">Proyectos de equipo en los que participo (repositorios privados).</p>
-        <div class="projects" id="collabGrid"></div>
+      <div class="filter-panel reveal">
+        <div class="filter-row">
+          <span class="filter-label" id="catLabel" data-i18n="filterCategory">Categoría</span>
+          <div class="filters" id="catFilters" role="toolbar" aria-labelledby="catLabel"></div>
+        </div>
+        <div class="filter-row">
+          <span class="filter-label" id="techLabel" data-i18n="filterTech">Tecnología</span>
+          <div class="filters" id="techFilters" role="toolbar" aria-labelledby="techLabel"></div>
+        </div>
+        <p class="filter-count muted small" id="projectCount" role="status" aria-live="polite"></p>
       </div>
+      <div class="projects" id="projectGrid"></div>
+      <p class="muted center" id="projectEmpty" hidden data-i18n="noProjects">Ningún proyecto coincide con esos filtros.</p>
       <div class="upcoming reveal">
         <h3 data-i18n="upcomingTitle">Próximamente</h3>
-        <p class="muted small" data-i18n="upcomingSub">Juegos por venir. Aún ocultos entre las estrellas.</p>
+        <p class="muted small" data-i18n="upcomingSub">Proyectos por venir. Aún ocultos entre las estrellas.</p>
         <ul class="upcoming-grid" id="upcomingGrid"></ul>
       </div>
       <div class="live reveal">
@@ -160,9 +166,9 @@
       <div class="contact reveal">
         <ul class="contact-links" id="contactLinks"></ul>
         <form class="contact-form glass" id="contactForm" novalidate>
-          <label><span data-i18n="formName">Nombre</span><input name="name" required autocomplete="name"></label>
-          <label><span data-i18n="formEmail">Correo</span><input name="email" type="email" required autocomplete="email"></label>
-          <label><span data-i18n="formMessage">Mensaje</span><textarea name="message" rows="5" required></textarea></label>
+          <label><span data-i18n="formName">Nombre</span><input name="name" required autocomplete="name" maxlength="100"></label>
+          <label><span data-i18n="formEmail">Correo</span><input name="email" type="email" required autocomplete="email" maxlength="254"></label>
+          <label><span data-i18n="formMessage">Mensaje</span><textarea name="message" rows="5" required minlength="10" maxlength="3000"></textarea></label>
           <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="btn btn-primary" type="submit" id="formSubmit"></button>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>

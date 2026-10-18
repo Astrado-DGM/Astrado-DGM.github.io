@@ -12,7 +12,7 @@
       skip: "Saltar al contenido", hello: "Hola, viajero. Soy", ctaProjects: "Ver proyectos", ctaContact: "Contactar",
       navHome: "Inicio", navAbout: "Sobre mí", navProjects: "Proyectos", navCv: "Currículum", navLog: "Bitácora",
       navResources: "Fuentes", navContact: "Contacto",
-      projectsSub: "Constelación de cosas que he construido.", collabTitle: "Colaboraciones", collabSub: "Proyectos de equipo en los que participo (repositorios privados).", upcomingTitle: "Próximamente", upcomingSub: "Juegos por venir. Aún ocultos entre las estrellas.", locked: "Sin revelar", liveTitle: "Más repositorios", liveSub: "Cargados en vivo desde GitHub.",
+      projectsSub: "Constelación de cosas que he construido.", filterCategory: "Categoría", filterTech: "Tecnología", noProjects: "Ningún proyecto coincide con esos filtros.", projectCount: "{n} de {t} proyectos", upcomingTitle: "Próximamente", upcomingSub: "Proyectos por venir. Aún ocultos entre las estrellas.", locked: "Sin revelar", liveTitle: "Más repositorios", liveSub: "Cargados en vivo desde GitHub.",
       liveLoading: "Buscando señales en GitHub…", liveError: "No se pudo contactar a GitHub. Visita mis perfiles directamente.",
       cvEducation: "Formación", cvExperience: "Experiencia", cvSkills: "Habilidades", cvDownload: "Descargar CV (PDF)",
       logSub: "Registro de vuelo: lo que voy haciendo y aprendiendo.",
@@ -21,7 +21,7 @@
       contactSub: "Envía una señal. Respondo en cuanto la reciba.", formName: "Nombre", formEmail: "Correo", formMessage: "Mensaje",
       formSend: "Enviar señal", formSending: "Transmitiendo…", formOk: "¡Señal recibida! Te responderé pronto.",
       formErr: "Algo falló al enviar. Escríbeme directo al correo.", formInvalid: "Completa todos los campos con un correo válido.",
-      formMailto: "Se abrirá tu cliente de correo para enviar el mensaje.",
+      formMailto: "Se abrirá tu cliente de correo para enviar el mensaje.", formTooFast: "Espera unos segundos antes de enviar.", formCooldown: "Ya enviaste un mensaje hace poco. Intenta de nuevo en {s} s.", formDaily: "Alcanzaste el límite de mensajes por hoy. Escríbeme directo al correo.", formShort: "El mensaje es demasiado corto.",
       credits: "Créditos de recursos", soundOn: "Sonido activado", soundOff: "Sonido desactivado", menu: "Menú",
       updated: "Actualizado",
     },
@@ -29,7 +29,7 @@
       skip: "Skip to content", hello: "Hello, traveler. I'm", ctaProjects: "See projects", ctaContact: "Get in touch",
       navHome: "Home", navAbout: "About", navProjects: "Projects", navCv: "Résumé", navLog: "Log",
       navResources: "Resources", navContact: "Contact",
-      projectsSub: "A constellation of things I've built.", collabTitle: "Collaborations", collabSub: "Team projects I take part in (private repositories).", upcomingTitle: "Coming soon", upcomingSub: "Games on the way. Still hidden among the stars.", locked: "Unrevealed", liveTitle: "More repositories", liveSub: "Loaded live from GitHub.",
+      projectsSub: "A constellation of things I've built.", filterCategory: "Category", filterTech: "Technology", noProjects: "No project matches those filters.", projectCount: "{n} of {t} projects", upcomingTitle: "Coming soon", upcomingSub: "Projects on the way. Still hidden among the stars.", locked: "Unrevealed", liveTitle: "More repositories", liveSub: "Loaded live from GitHub.",
       liveLoading: "Scanning GitHub for signals…", liveError: "Couldn't reach GitHub. Visit my profiles directly.",
       cvEducation: "Education", cvExperience: "Experience", cvSkills: "Skills", cvDownload: "Download résumé (PDF)",
       logSub: "Flight log: what I'm doing and learning.",
@@ -38,7 +38,7 @@
       contactSub: "Send a signal. I'll reply as soon as it arrives.", formName: "Name", formEmail: "Email", formMessage: "Message",
       formSend: "Send signal", formSending: "Transmitting…", formOk: "Signal received! I'll get back to you soon.",
       formErr: "Something went wrong. Please email me directly.", formInvalid: "Fill in every field with a valid email.",
-      formMailto: "Your email client will open to send the message.",
+      formMailto: "Your email client will open to send the message.", formTooFast: "Please wait a few seconds before sending.", formCooldown: "You sent a message recently. Try again in {s} s.", formDaily: "You reached today's message limit. Please email me directly.", formShort: "The message is too short.",
       credits: "Asset credits", soundOn: "Sound on", soundOff: "Sound off", menu: "Menu",
       updated: "Updated",
     },
@@ -146,7 +146,7 @@
   // ------------------------------------------------------------------
   // Render
   // ------------------------------------------------------------------
-  var state = { projectTag: null, logTag: null, query: "" };
+  var state = { projectCat: null, projectTech: null, logTag: null, query: "" };
 
   function renderStatic() {
     document.documentElement.lang = lang;
@@ -224,23 +224,52 @@
     return Object.keys(seen).sort(function (a, b) { return seen[b] - seen[a] || a.localeCompare(b); });
   }
 
+  // Fila de filtros: items = [{ value, label }], la primera opción es "Todo"
+  function filterRow(sel, items, current, onPick) {
+    var el = $(sel);
+    el.innerHTML = [{ value: null, label: t("all") }].concat(items).map(function (it) {
+      return '<button type="button" class="chip" aria-pressed="' + (it.value === current) + '" data-value="' + esc(it.value || "") + '">' + esc(it.label) + "</button>";
+    }).join("");
+    el.onclick = function (e) {
+      var b = e.target.closest(".chip"); if (!b) return;
+      Sound.play("select");
+      onPick(b.dataset.value || null);
+    };
+  }
+
   function renderProjects() {
-    var tags = uniqueTags(S.projects).slice(0, 8);
-    chips("#projectFilters", tags, state.projectTag, function (tag) { state.projectTag = tag; renderProjects(); });
+    var cats = S.categories || {}, scopes = S.scopes || {};
+    var usedCats = Object.keys(cats).filter(function (k) { return S.projects.some(function (p) { return p.category === k; }); });
+    filterRow("#catFilters", usedCats.map(function (k) { return { value: k, label: tr(cats[k]) }; }), state.projectCat,
+      function (v) { state.projectCat = v; renderProjects(); });
+    // Tecnologías: solo las de la categoría elegida, ordenadas por frecuencia
+    var pool = S.projects.filter(function (p) { return !state.projectCat || p.category === state.projectCat; });
+    var techs = uniqueTags(pool.map(function (p) { return { tags: p.tech }; }));
+    if (state.projectTech && techs.indexOf(state.projectTech) < 0) state.projectTech = null;
+    filterRow("#techFilters", techs.map(function (x) { return { value: x, label: x }; }), state.projectTech,
+      function (v) { state.projectTech = v; renderProjects(); });
+
+    var shown = 0;
     function card(p) {
-      var hide = state.projectTag && (p.tags || []).indexOf(state.projectTag) < 0;
+      var hide = (state.projectCat && p.category !== state.projectCat) || (state.projectTech && (p.tech || []).indexOf(state.projectTech) < 0);
+      if (!hide) shown++;
       return '<article class="project glass reveal in' + (p.featured ? " featured" : "") + (hide ? " hidden" : "") + '">' +
-        '<div class="project-top"><span class="project-year">' + esc(tr(p.year)) + "</span>" + (p.featured ? icon("star", "star-mark") : "") + "</div>" +
-        "<h3>" + esc(tr(p.title)) + "</h3><p>" + esc(tr(p.description)) + "</p>" +
-        '<ul class="tags">' + (p.tags || []).map(function (tag) { return "<li>" + esc(tag) + "</li>"; }).join("") + "</ul>" +
+        '<div class="project-top"><span class="project-cat cat-' + esc(p.category || "") + '">' + esc(tr(cats[p.category])) + '</span>' +
+        '<span class="project-year">' + esc(tr(p.year)) + "</span>" + (p.featured ? icon("star", "star-mark") : "") + "</div>" +
+        "<h3>" + esc(tr(p.title)) + "</h3>" +
+        (p.scope ? '<p class="project-scope">' + icon(p.scope === "team" ? "user" : p.scope === "university" ? "academic" : "sparkles") + esc(tr(scopes[p.scope])) + "</p>" : "") +
+        '<p class="project-desc">' + esc(tr(p.description)) + "</p>" +
+        '<ul class="tags" aria-label="' + esc(t("filterTech")) + '">' + (p.tech || []).map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
         '<div class="project-links">' + (p.links || []).map(function (l) {
           return '<a href="' + esc(l.url) + '"' + ext(l.url) + ">" + icon(l.icon || (/github/i.test(l.url) ? "code" : "external")) + esc(tr(l.label)) + "</a>";
         }).join("") + "</div></article>";
     }
-    $("#projectGrid").innerHTML = S.projects.filter(function (p) { return !p.collab; }).map(card).join("");
-    var collabs = S.projects.filter(function (p) { return p.collab; });
-    $("#collabWrap").hidden = !collabs.length;
-    $("#collabGrid").innerHTML = collabs.map(card).join("");
+    // Destacados en filas de 2 y el resto en filas de 3 (sin huecos al filtrar)
+    var feat = S.projects.filter(function (p) { return p.featured; }).map(card).join("");
+    var rest = S.projects.filter(function (p) { return !p.featured; }).map(card).join("");
+    $("#projectGrid").innerHTML = '<div class="projects-featured">' + feat + '</div><div class="projects-rest">' + rest + "</div>";
+    $("#projectEmpty").hidden = shown > 0;
+    $("#projectCount").textContent = t("projectCount").replace("{n}", shown).replace("{t}", S.projects.length);
   }
 
   function renderUpcoming() {
@@ -396,18 +425,48 @@
   // ------------------------------------------------------------------
   // Formulario de contacto
   // ------------------------------------------------------------------
+  // Protección del formulario. Lo del navegador (tiempo mínimo, espera entre envíos,
+  // límite diario) frena bots simples y envíos repetidos por error; el filtro de spam
+  // y el límite real los aplica Formspree en su servidor, junto con el campo _gotcha.
+  var FORM_LIMITS = { minSeconds: 4, cooldownSeconds: 120, perDay: 3 };
+
+  function sendLog() {
+    try {
+      var raw = JSON.parse(localStorage.getItem("astrado.sent") || "[]");
+      var dayAgo = Date.now() - 864e5;
+      return Array.isArray(raw) ? raw.filter(function (x) { return typeof x === "number" && x > dayAgo; }) : [];
+    } catch (e) { return []; }
+  }
+  function logSend() {
+    var list = sendLog(); list.push(Date.now());
+    try { localStorage.setItem("astrado.sent", JSON.stringify(list)); } catch (e) {}
+  }
+
   function setupForm() {
     var form = $("#contactForm"), status = $("#formStatus"), btn = $("#formSubmit");
+    var startedAt = 0;
+    form.addEventListener("focusin", function () { if (!startedAt) startedAt = Date.now(); });
+    function fail(msg) { status.className = "form-status err"; status.textContent = msg; }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (btn.disabled) return;
       var data = new FormData(form);
       var name = (data.get("name") || "").trim(), email = (data.get("email") || "").trim(), msg = (data.get("message") || "").trim();
       var okEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
       form.name.classList.toggle("invalid", !name);
       form.email.classList.toggle("invalid", !okEmail);
-      form.message.classList.toggle("invalid", !msg);
-      if (!name || !okEmail || !msg) { status.className = "form-status err"; status.textContent = t("formInvalid"); return; }
-      if (data.get("_gotcha")) return; // bot
+      form.message.classList.toggle("invalid", msg.length < 10);
+      if (!name || !okEmail || !msg) return fail(t("formInvalid"));
+      if (msg.length < 10) return fail(t("formShort"));
+      if (data.get("_gotcha")) return; // bot: campo trampa relleno
+
+      // Un humano tarda al menos unos segundos en escribir; los bots envían al instante
+      if (!startedAt || Date.now() - startedAt < FORM_LIMITS.minSeconds * 1000) return fail(t("formTooFast"));
+      var log = sendLog();
+      if (log.length >= FORM_LIMITS.perDay) return fail(t("formDaily"));
+      var wait = Math.ceil((log.length ? log[log.length - 1] + FORM_LIMITS.cooldownSeconds * 1000 - Date.now() : 0) / 1000);
+      if (wait > 0) return fail(t("formCooldown").replace("{s}", wait));
 
       var id = S.contact.formspreeId;
       if (!id) {
@@ -423,9 +482,10 @@
         method: "POST", body: data, headers: { Accept: "application/json" },
       }).then(function (r) {
         if (!r.ok) throw new Error(r.status);
+        logSend(); startedAt = 0;
         form.reset(); status.className = "form-status ok"; status.textContent = t("formOk"); Sound.play("sent");
       }).catch(function () {
-        status.className = "form-status err"; status.textContent = t("formErr");
+        fail(t("formErr"));
       }).finally(function () {
         btn.disabled = false; btn.querySelector("span").textContent = t("formSend");
       });

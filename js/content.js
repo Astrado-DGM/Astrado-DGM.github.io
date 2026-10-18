@@ -52,8 +52,8 @@ window.SITE = {
   about: {
     paragraphs: [
       {
-        es: "Soy Patricio Vejar, conocido en línea como Astrado. Estudio Ingeniería en Computación en la Universidad de La Serena y trabajo principalmente en proyectos relacionados con videojuegos.",
-        en: "I'm Patricio Vejar, known online as Astrado. I study Computer Engineering at the University of La Serena and mostly work on video-game related projects.",
+        es: "Soy Patricio Vejar, conocido en línea como Astrado. Estudio Ingeniería en Computación en la Universidad de La Serena y desarrollo proyectos de software de distintos tipos: aplicaciones de escritorio, plataformas web, motores y videojuegos.",
+        en: "I'm Patricio Vejar, known online as Astrado. I study Computer Engineering at the University of La Serena and build software projects of different kinds: desktop applications, web platforms, engines and games.",
       },
       {
         es: "Soy Dungeon Master de varios juegos de rol con múltiples grupos de personas. A partir de esa experiencia he creado múltiples mecánicas de juego enfocadas en la adaptabilidad narrativa y en la diversión de los jugadores.",
@@ -65,7 +65,7 @@ window.SITE = {
       },
     ],
     facts: [
-      { label: { es: "Enfoque", en: "Focus" }, value: { es: "Videojuegos y narrativa", en: "Games & narrative" } },
+      { label: { es: "Enfoque", en: "Focus" }, value: { es: "Software, videojuegos y narrativa", en: "Software, games & narrative" } },
       { label: { es: "Rol", en: "Tabletop" }, value: { es: "Dungeon Master", en: "Dungeon Master" } },
       { label: { es: "Interés", en: "Interest" }, value: { es: "Generación procedural", en: "Procedural generation" } },
       { label: { es: "Motores", en: "Engines" }, value: { es: "Unity · GameMaker", en: "Unity · GameMaker" } },
@@ -75,14 +75,35 @@ window.SITE = {
   },
 
   // ------------------------------------------------------------------
-  // Proyectos (showcase). featured: true = tarjeta grande.
+  // Categorías y alcance de los proyectos (filtros y etiquetas de cada tarjeta)
+  // ------------------------------------------------------------------
+  categories: {
+    games: { es: "Juegos", en: "Games" },
+    apps: { es: "Aplicaciones", en: "Applications" },
+    engines: { es: "Motores", en: "Engines" },
+    web: { es: "Web", en: "Web" },
+    academic: { es: "Académico", en: "Academic" },
+  },
+  scopes: {
+    personal: { es: "Proyecto personal", en: "Personal project" },
+    team: { es: "Colaboración en equipo", en: "Team collaboration" },
+    university: { es: "Trabajo universitario", en: "University coursework" },
+  },
+
+  // ------------------------------------------------------------------
+  // Proyectos (showcase).
+  //   category: una clave de "categories"   scope: una clave de "scopes"
+  //   tech: solo tecnologías (lenguajes, motores, frameworks)
+  //   featured: true = tarjeta grande
   // ------------------------------------------------------------------
   projects: [
     {
       title: "Astrados Audio Handler",
       featured: true,
-      year: "2026",
-      tags: ["Python", "Audio", "Windows"],
+      category: "apps",
+      scope: "personal",
+      year: "2026 · v1.0.0",
+      tech: ["Python", "Windows"],
       description: {
         es: "Aplicación de escritorio que mezcla micrófono, música en loop y efectos de sonido en una sola salida de audio. Filtro de micrófono nativo, ducking, detección de cable de audio virtual, atajos de teclado e interfaz estilo Windows 7. Distribuida con instalador.",
         en: "Desktop app that mixes microphone, looping music and sound effects into a single audio output. Native mic filter, ducking, virtual audio cable detection, hotkeys and a Windows 7-style UI. Ships with an installer.",
@@ -95,8 +116,10 @@ window.SITE = {
     {
       title: "Astrados Transfer",
       featured: true,
+      category: "apps",
+      scope: "personal",
       year: "2026 · v1.0",
-      tags: ["Python", "Audio", "Windows"],
+      tech: ["Python", "Windows"],
       description: {
         es: "Descargador de música de YouTube con interfaz estilo reproductor MP3 (Frutiger Aero). Pegas el link de una canción o de una playlist y la app detecta cuál es; permite cancelar descargas, tiene sonidos de interfaz y se instala con un instalador .exe o .msi.",
         en: "YouTube music downloader with an MP3-player-style interface (Frutiger Aero). Paste a song or playlist link and the app figures out which it is; downloads can be cancelled, it has interface sounds and installs with an .exe or .msi installer.",
@@ -106,19 +129,23 @@ window.SITE = {
     {
       title: "AVNM",
       featured: true,
+      category: "engines",
+      scope: "personal",
       year: { es: "En desarrollo", en: "In development" },
-      tags: ["C#", ".NET", "Novela visual"],
+      tech: ["C#", ".NET", "MonoGame"],
       description: {
-        es: "Game engine propio enfocado en la creación y ejecución de novelas visuales, con diálogo ramificado semiautomático basado en autómatas. Proyecto privado.",
-        en: "Custom game engine focused on creating and running visual novels, with semi-automatic branching dialogue built on automata. Private project.",
+        es: "Game engine propio enfocado en la creación y ejecución de novelas visuales, con diálogo ramificado semiautomático basado en autómatas. Repositorio privado.",
+        en: "Custom game engine focused on creating and running visual novels, with semi-automatic branching dialogue built on automata. Private repository.",
       },
       links: [],
     },
     {
       title: "Almanac Alquimist",
       featured: true,
-      year: "Unity",
-      tags: ["Unity", "C#", "Roguelike"],
+      category: "games",
+      scope: "personal",
+      year: { es: "Prueba de concepto", en: "Proof of concept" },
+      tech: ["Unity", "C#"],
       description: {
         es: "Prueba de concepto para un juego roguelike.",
         en: "Proof of concept for a roguelike game.",
@@ -128,8 +155,10 @@ window.SITE = {
     {
       title: "Invasión Al Faro",
       featured: true,
-      year: "Game jam",
-      tags: ["GameMaker", "GML", "Game Jam"],
+      category: "games",
+      scope: "university",
+      year: { es: "Game jam · 2024", en: "Game jam · 2024" },
+      tech: ["GameMaker", "GML"],
       description: {
         es: "Juego hecho en 11 días para una game jam en mi universidad. En progreso para mejorarlo.",
         en: "A game made in 11 days for a game jam at my university. Work in progress to make it better.",
@@ -137,9 +166,47 @@ window.SITE = {
       links: [{ label: "GitHub", url: "https://github.com/Astrado-DGM/Invasion-Al-Faro" }],
     },
     {
+      title: "CampusOne",
+      category: "web",
+      scope: "team",
+      year: "2026",
+      tech: ["TypeScript", "React", "Next.js", "Express", "PostgreSQL"],
+      description: {
+        es: "Ecosistema universitario integrado: plataforma digital modular para la comunidad de la Universidad de La Serena. Uno de los principales contribuidores del repositorio (privado).",
+        en: "Integrated university ecosystem: a modular digital platform for the University of La Serena community. One of the main contributors to the (private) repository.",
+      },
+      links: [],
+    },
+    {
+      title: { es: "Web Escuela de Ingeniería en Computación ULS", en: "ULS Computer Engineering School website" },
+      category: "web",
+      scope: "team",
+      year: "2026",
+      tech: ["JavaScript", "React", "Vite", "Express", "PostgreSQL"],
+      description: {
+        es: "Página web corporativa de la Escuela de Ingeniería en Computación e Informática de la ULS. Principal contribuidor del repositorio (privado).",
+        en: "Corporate website for the ULS School of Computer and Information Engineering. Main contributor to the (private) repository.",
+      },
+      links: [],
+    },
+    {
+      title: "PATOVER",
+      category: "web",
+      scope: "team",
+      year: "2026",
+      tech: ["PHP", "TypeScript", "Docker"],
+      description: {
+        es: "Plataforma multievento para administrar eventos y actividades universitarias. Repositorio privado.",
+        en: "Multi-event platform for managing university events and activities. Private repository.",
+      },
+      links: [],
+    },
+    {
       title: "Crivo — FFT y encriptación",
+      category: "academic",
+      scope: "university",
       year: "2024",
-      tags: ["Matemáticas", "FFT", "Universidad"],
+      tech: ["Java"],
       description: {
         es: "Demostración de cómo la transformada de Fourier (FFT) se usa para encriptar. Trabajo de Matemáticas.",
         en: "Demo of how the Fast Fourier Transform (FFT) can be used for encryption. Math coursework.",
@@ -148,8 +215,10 @@ window.SITE = {
     },
     {
       title: "JavaSafe",
+      category: "academic",
+      scope: "university",
       year: "2024",
-      tags: ["Java", "POO", "Universidad"],
+      tech: ["Java"],
       description: {
         es: "Colección de proyectos pequeños en Java: sistema de peajes con interfaz gráfica, cuestionario que carga preguntas desde archivo, sistema de inmuebles con herencia, registro de personas y fechas, y un ejemplo de uso de la librería PDFBox.",
         en: "Collection of small Java projects: a toll system with a GUI, a quiz that loads questions from a file, a real-estate system using inheritance, a people-and-dates record, and a PDFBox library example.",
@@ -158,8 +227,10 @@ window.SITE = {
     },
     {
       title: "Python-safe",
+      category: "academic",
+      scope: "university",
       year: "2025",
-      tags: ["Python", "Jupyter", "Universidad"],
+      tech: ["Python", "Jupyter"],
       description: {
         es: "Colección de trabajos en Python: cálculo multivariable y graficado 3D, curvas de Bézier, simulaciones de potencial eléctrico, un sistema cliente-servidor multihilo, números binarios con recursión, un notebook de machine learning con datos de Pokémon y pruebas con Spark.",
         en: "Collection of Python work: multivariable calculus and 3D plotting, Bézier curves, electric potential simulations, a multithreaded client-server system, binary numbers with recursion, a machine learning notebook with Pokémon data and Spark tests.",
@@ -168,53 +239,20 @@ window.SITE = {
     },
     {
       title: "Voult",
+      category: "academic",
+      scope: "university",
       year: "2024",
-      tags: ["C", "Estructuras de datos"],
+      tech: ["C"],
       description: {
         es: "Biblioteca reutilizable en C: lista enlazada, manejo de enteros largos y estructuras base, con un programa de ejemplo.",
         en: "Reusable C library: linked list, long-integer handling and base structs, with an example program.",
       },
       links: [{ label: "GitHub", url: "https://github.com/PatriciAstrado/Voult" }],
     },
-
-    // Colaboraciones (repos privados de equipos; sin enlace público)
-    {
-      title: "CampusOne",
-      collab: true,
-      year: "2026",
-      tags: ["Web", "ULS", "Equipo"],
-      description: {
-        es: "Ecosistema universitario integrado: plataforma digital modular para la comunidad de la Universidad de La Serena. Uno de los principales contribuidores del repositorio.",
-        en: "Integrated university ecosystem: a modular digital platform for the University of La Serena community. One of the main contributors to the repository.",
-      },
-      links: [],
-    },
-    {
-      title: { es: "Web Escuela de Ingeniería en Computación ULS", en: "ULS Computer Engineering School website" },
-      collab: true,
-      year: "2026",
-      tags: ["Web", "ULS", "Equipo"],
-      description: {
-        es: "Página web corporativa de la Escuela de Ingeniería en Computación e Informática de la ULS. Principal contribuidor del repositorio.",
-        en: "Corporate website for the ULS School of Computer and Information Engineering. Main contributor to the repository.",
-      },
-      links: [],
-    },
-    {
-      title: "PATOVER",
-      collab: true,
-      year: "2026",
-      tags: ["Web", "ULS", "Equipo"],
-      description: {
-        es: "Plataforma multievento para administrar eventos y actividades universitarias.",
-        en: "Multi-event platform for managing university events and activities.",
-      },
-      links: [],
-    },
   ],
 
   // ------------------------------------------------------------------
-  // Próximamente — 12 casillas de juegos por venir.
+  // Próximamente — 12 casillas de proyectos por venir.
   // Para revelar uno, reemplaza { revealed: false } por, por ejemplo:
   //   { revealed: true, title: "Nombre", note: { es: "2027", en: "2027" },
   //     image: "assets/img/projects/juego.jpg", url: "https://astrado-realm.itch.io/juego" }
