@@ -95,6 +95,8 @@ window.SITE = {
   //   category: una clave de "categories"   scope: una clave de "scopes"
   //   tech: solo tecnologías (lenguajes, motores, frameworks)
   //   featured: true = tarjeta grande
+  //   links con release: "usuario/repo" apuntan siempre a la última versión publicada
+  //   y el botón muestra esa versión (se lee sola desde GitHub)
   // ------------------------------------------------------------------
   projects: [
     {
@@ -102,14 +104,14 @@ window.SITE = {
       featured: true,
       category: "apps",
       scope: "personal",
-      year: "2026 · v1.0.0",
+      year: "2026",
       tech: ["Python", "Windows"],
       description: {
         es: "Aplicación de escritorio que mezcla micrófono, música en loop y efectos de sonido en una sola salida de audio. Filtro de micrófono nativo, ducking, detección de cable de audio virtual, atajos de teclado e interfaz estilo Windows 7. Distribuida con instalador.",
         en: "Desktop app that mixes microphone, looping music and sound effects into a single audio output. Native mic filter, ducking, virtual audio cable detection, hotkeys and a Windows 7-style UI. Ships with an installer.",
       },
       links: [
-        { label: { es: "Descargar v1.0.0", en: "Download v1.0.0" }, url: "https://github.com/Astrado-DGM/audio_handler_astrados/releases/tag/Release", icon: "download" },
+        { label: { es: "Descargar", en: "Download" }, release: "Astrado-DGM/audio_handler_astrados", icon: "download" },
         { label: "GitHub", url: "https://github.com/Astrado-DGM/audio_handler_astrados" },
       ],
     },
@@ -118,13 +120,13 @@ window.SITE = {
       featured: true,
       category: "apps",
       scope: "personal",
-      year: "2026 · v1.0",
+      year: "2026",
       tech: ["Python", "Windows"],
       description: {
         es: "Descargador de música de YouTube con interfaz estilo reproductor MP3 (Frutiger Aero). Pegas el link de una canción o de una playlist y la app detecta cuál es; permite cancelar descargas, tiene sonidos de interfaz y se instala con un instalador .exe o .msi.",
         en: "YouTube music downloader with an MP3-player-style interface (Frutiger Aero). Paste a song or playlist link and the app figures out which it is; downloads can be cancelled, it has interface sounds and installs with an .exe or .msi installer.",
       },
-      links: [{ label: { es: "Descargar v1.0", en: "Download v1.0" }, url: "https://github.com/Astrado-DGM/ytDownloader-Public-release/releases/tag/Release", icon: "download" }],
+      links: [{ label: { es: "Descargar", en: "Download" }, release: "Astrado-DGM/ytDownloader-Public-release", icon: "download" }],
     },
     {
       title: "AVNM",

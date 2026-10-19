@@ -237,6 +237,38 @@
     };
   }
 
+  // Releases: el enlace va a /releases/latest y la versión se lee de la API de GitHub
+  // (con caché en sessionStorage para no gastar el límite de la API).
+  var releaseTags = {};
+  try { releaseTags = JSON.parse(sessionStorage.getItem("astrado.releases") || "{}") || {}; } catch (e) {}
+  function releaseUrl(repo) { return "https://github.com/" + repo + "/releases/latest"; }
+  function linkHtml(l) {
+    var url = l.release ? releaseUrl(l.release) : l.url;
+    var tag = l.release && releaseTags[l.release];
+    var label = tr(l.label) + (tag ? " " + tag : "");
+    return '<a href="' + esc(url) + '"' + ext(url) + (l.release ? ' data-release="' + esc(l.release) + '"' : "") + ">" +
+      icon(l.icon || (/github/i.test(url) ? "code" : "external")) + esc(label) + "</a>";
+  }
+  function loadReleases() {
+    var repos = [];
+    S.projects.forEach(function (p) { (p.links || []).forEach(function (l) { if (l.release && repos.indexOf(l.release) < 0) repos.push(l.release); }); });
+    var pending = repos.filter(function (r) { return !(r in releaseTags); });
+    if (!pending.length) return;
+    Promise.all(pending.map(function (repo) {
+      return fetch("https://api.github.com/repos/" + repo + "/releases/latest", { headers: { Accept: "application/vnd.github+json" } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          // Usa el número de versión del nombre ("Astrados Audio Handler v1.0.1") o, si no hay, el tag
+          var m = d && (String(d.name || "").match(/v?\d+(\.\d+)+/) || String(d.tag_name || "").match(/v?\d+(\.\d+)+/));
+          releaseTags[repo] = m ? (m[0][0] === "v" ? m[0] : "v" + m[0]) : "";
+        })
+        .catch(function () { /* sin red o límite de la API: queda solo "Descargar" */ });
+    })).then(function () {
+      try { sessionStorage.setItem("astrado.releases", JSON.stringify(releaseTags)); } catch (e) {}
+      renderProjects();
+    });
+  }
+
   function renderProjects() {
     var cats = S.categories || {}, scopes = S.scopes || {};
     var usedCats = Object.keys(cats).filter(function (k) { return S.projects.some(function (p) { return p.category === k; }); });
@@ -260,9 +292,7 @@
         (p.scope ? '<p class="project-scope">' + icon(p.scope === "team" ? "user" : p.scope === "university" ? "academic" : "sparkles") + esc(tr(scopes[p.scope])) + "</p>" : "") +
         '<p class="project-desc">' + esc(tr(p.description)) + "</p>" +
         '<ul class="tags" aria-label="' + esc(t("filterTech")) + '">' + (p.tech || []).map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" +
-        '<div class="project-links">' + (p.links || []).map(function (l) {
-          return '<a href="' + esc(l.url) + '"' + ext(l.url) + ">" + icon(l.icon || (/github/i.test(l.url) ? "code" : "external")) + esc(tr(l.label)) + "</a>";
-        }).join("") + "</div></article>";
+        '<div class="project-links">' + (p.links || []).map(linkHtml).join("") + "</div></article>";
     }
     // Destacados en filas de 2 y el resto en filas de 3 (sin huecos al filtrar)
     var feat = S.projects.filter(function (p) { return p.featured; }).map(card).join("");
@@ -579,6 +609,7 @@
   // Inicio
   // ------------------------------------------------------------------
   renderAll();
+  loadReleases();
   setupObservers();
   setupMenu();
   setupForm();
