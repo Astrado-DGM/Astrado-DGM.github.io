@@ -39,6 +39,15 @@ La sección "Más repositorios" (carga en vivo desde la API de GitHub) está des
 
 Mientras esté vacío, el botón abre el cliente de correo del visitante (mailto).
 
+### Captcha (Cloudflare Turnstile)
+
+1. En <https://dash.cloudflare.com> → **Turnstile** → **Add widget**. Dominios permitidos: `astrado-dgm.github.io` (y `127.0.0.1` / `localhost` para pruebas locales). Modo recomendado: **Managed**.
+2. Copia la **Site Key** (pública) y pégala en `contact.turnstileSiteKey` en `js/content.js`.
+3. Copia la **Secret Key** (privada, nunca va en el código) y pégala en Formspree: formulario → **Settings → CAPTCHA** → activar → **Adjust settings** → **Cloudflare Turnstile**.
+
+Con la Secret Key en Formspree, cualquier envío sin un token válido se rechaza en el servidor, aunque un bot se salte la página.
+Además, el formulario limita en el navegador: 4 s mínimos antes de enviar, 2 min entre envíos y 3 envíos por día, más el campo trampa `_gotcha`.
+
 ## Probar en local
 
 ```bash

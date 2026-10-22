@@ -9,7 +9,7 @@
   // ------------------------------------------------------------------
   var UI = {
     es: {
-      skip: "Saltar al contenido", hello: "Hola, viajero. Soy", ctaProjects: "Ver proyectos", ctaContact: "Contactar",
+      skip: "Saltar al contenido", navHome: "Inicio", sections: "Secciones", langSwitch: "Cambiar idioma", scrollDown: "Bajar a Sobre mí", filterLog: "Filtrar bitácora", captchaNeeded: "Completa la verificación antes de enviar.", captchaError: "No se pudo cargar la verificación. Recarga la página o escríbeme al correo.", metaDescription: "Astrado (Patricio Vejar): desarrollador de software y videojuegos, estudiante de Ingeniería en Computación. Portafolio, currículum, bitácora y fuentes útiles.", hello: "Hola, viajero. Soy", ctaProjects: "Ver proyectos", ctaContact: "Contactar",
       navHome: "Inicio", navAbout: "Sobre mí", navProjects: "Proyectos", navCv: "Currículum", navLog: "Bitácora",
       navResources: "Fuentes", navContact: "Contacto",
       projectsSub: "Constelación de cosas que he construido.", filterCategory: "Categoría", filterTech: "Tecnología", noProjects: "Ningún proyecto coincide con esos filtros.", projectCount: "{n} de {t} proyectos", upcomingTitle: "Próximamente", upcomingSub: "Proyectos por venir. Aún ocultos entre las estrellas.", locked: "Sin revelar", liveTitle: "Más repositorios", liveSub: "Cargados en vivo desde GitHub.",
@@ -26,12 +26,12 @@
       updated: "Actualizado",
     },
     en: {
-      skip: "Skip to content", hello: "Hello, traveler. I'm", ctaProjects: "See projects", ctaContact: "Get in touch",
+      skip: "Skip to content", navHome: "Home", sections: "Sections", langSwitch: "Change language", scrollDown: "Scroll to About", filterLog: "Filter log", captchaNeeded: "Please complete the verification before sending.", captchaError: "The verification could not load. Reload the page or email me.", metaDescription: "Astrado (Patricio Vejar): software and game developer, Computer Engineering student. Portfolio, résumé, log and useful resources.", hello: "Hello, traveler. I'm", ctaProjects: "See projects", ctaContact: "Get in touch",
       navHome: "Home", navAbout: "About", navProjects: "Projects", navCv: "Résumé", navLog: "Log",
       navResources: "Resources", navContact: "Contact",
       projectsSub: "A constellation of things I've built.", filterCategory: "Category", filterTech: "Technology", noProjects: "No project matches those filters.", projectCount: "{n} of {t} projects", upcomingTitle: "Coming soon", upcomingSub: "Projects on the way. Still hidden among the stars.", locked: "Unrevealed", liveTitle: "More repositories", liveSub: "Loaded live from GitHub.",
       liveLoading: "Scanning GitHub for signals…", liveError: "Couldn't reach GitHub. Visit my profiles directly.",
-      cvEducation: "Education", cvExperience: "Experience", cvSkills: "Skills", cvDownload: "Download résumé (PDF)",
+      cvEducation: "Education", cvExperience: "Experience", cvSkills: "Skills", cvDownload: "Download résumé (PDF, in Spanish)",
       logSub: "Flight log: what I'm doing and learning.",
       resourcesTitle: "Useful resources", resourcesSub: "A star map of resources I use and recommend.", searchLabel: "Search resources", searchPh: "Search resources…",
       noResults: "Nothing in this region of the sky.", all: "All",
@@ -151,6 +151,9 @@
   function renderStatic() {
     document.documentElement.lang = lang;
     document.querySelectorAll("[data-i18n]").forEach(function (el) { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
+    var meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute("content", t("metaDescription"));
     $("#langBtn").textContent = lang === "es" ? "EN" : "ES";
     $("#langBtn").title = lang === "es" ? "English" : "Español";
     $("#menuBtn").innerHTML = icon("menu");
@@ -182,7 +185,9 @@
     $("#heroTagline").textContent = tr(p.tagline);
     var av = $("#heroAvatar");
     if (!av) return renderHeroLinks();
-    if (p.photo || p.avatar) av.src = p.photo || p.avatar; else av.remove();
+    var src = p.photo || p.avatar;
+    if (src) { if (av.getAttribute("src") !== src) av.src = src; } else av.remove();
+    av.alt = p.name;
     av.onerror = function () { av.remove(); };
     renderHeroLinks();
   }
@@ -472,6 +477,46 @@
     try { localStorage.setItem("astrado.sent", JSON.stringify(list)); } catch (e) {}
   }
 
+  // ------------------------------------------------------------------
+  // Captcha Cloudflare Turnstile (solo si hay Site Key). Formspree verifica el
+  // token en su servidor con la Secret Key, así que un bot que envíe directo a
+  // Formspree sin resolverlo es rechazado.
+  // ------------------------------------------------------------------
+  var Captcha = (function () {
+    var key = (S.contact && S.contact.turnstileSiteKey) || "";
+    var box = $("#captchaBox"), widget = null, token = "", failed = false, loading = false;
+    function render() {
+      if (!window.turnstile || !box) return;
+      if (widget !== null) { try { window.turnstile.remove(widget); } catch (e) {} widget = null; }
+      token = "";
+      box.hidden = false;
+      widget = window.turnstile.render(box, {
+        sitekey: key, theme: "dark", language: lang === "en" ? "en" : "es",
+        callback: function (tk) { token = tk; failed = false; },
+        "expired-callback": function () { token = ""; },
+        "error-callback": function () { token = ""; failed = true; },
+      });
+    }
+    function load() {
+      if (!key || loading) return;
+      loading = true;
+      window.astradoTurnstileReady = render;
+      var sc = document.createElement("script");
+      sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=astradoTurnstileReady";
+      sc.async = true; sc.defer = true;
+      sc.onerror = function () { failed = true; };
+      document.head.appendChild(sc);
+    }
+    return {
+      enabled: function () { return !!key; },
+      load: load,
+      relang: function () { if (widget !== null) render(); },
+      ok: function () { return !key || !!token; },
+      failed: function () { return failed; },
+      reset: function () { token = ""; if (widget !== null && window.turnstile) window.turnstile.reset(widget); },
+    };
+  })();
+
   function setupForm() {
     var form = $("#contactForm"), status = $("#formStatus"), btn = $("#formSubmit");
     var startedAt = 0;
@@ -497,6 +542,7 @@
       if (log.length >= FORM_LIMITS.perDay) return fail(t("formDaily"));
       var wait = Math.ceil((log.length ? log[log.length - 1] + FORM_LIMITS.cooldownSeconds * 1000 - Date.now() : 0) / 1000);
       if (wait > 0) return fail(t("formCooldown").replace("{s}", wait));
+      if (!Captcha.ok()) return fail(t(Captcha.failed() ? "captchaError" : "captchaNeeded"));
 
       var id = S.contact.formspreeId;
       if (!id) {
@@ -517,6 +563,7 @@
       }).catch(function () {
         fail(t("formErr"));
       }).finally(function () {
+        Captcha.reset(); // cada token sirve una sola vez
         btn.disabled = false; btn.querySelector("span").textContent = t("formSend");
       });
     });
@@ -613,6 +660,7 @@
   setupObservers();
   setupMenu();
   setupForm();
+  Captcha.load();
   setupSky();
   setupCardGlow();
 
@@ -620,6 +668,7 @@
     lang = lang === "es" ? "en" : "es"; save("lang", lang);
     Sound.play("decision");
     renderAll();
+    Captcha.relang();
   });
   $("#soundBtn").addEventListener("click", function () { Sound.set(!Sound.isOn()); });
   $("#resourceSearch").addEventListener("input", function (e) { state.query = e.target.value; renderResources(); });

@@ -22,13 +22,13 @@
   <a class="skip" href="#main" data-i18n="skip">Saltar al contenido</a>
 
   <header class="topbar">
-    <a class="brand" href="#inicio" aria-label="Inicio">
+    <a class="brand" href="#inicio" data-i18n-aria="navHome" aria-label="Inicio">
       <span class="brand-star" aria-hidden="true"></span>
       <span class="brand-text">Astrado</span>
     </a>
-    <nav id="nav" class="nav" aria-label="Secciones"></nav>
+    <nav id="nav" class="nav" data-i18n-aria="sections" aria-label="Secciones"></nav>
     <div class="tools">
-      <button id="langBtn" class="tool" type="button" aria-label="Cambiar idioma"></button>
+      <button id="langBtn" class="tool" type="button" data-i18n-aria="langSwitch" aria-label="Cambiar idioma"></button>
       <button id="soundBtn" class="tool" type="button" aria-pressed="false"></button>
       <button id="menuBtn" class="tool menu-btn" type="button" aria-expanded="false" aria-controls="nav"></button>
     </div>
@@ -39,7 +39,7 @@
     <section id="inicio" class="hero">
       <div class="hero-copy reveal">
         <p class="eyebrow" data-i18n="hello">Hola, viajero. Soy</p>
-        <h1 class="hero-title"><span id="heroAlias"></span></h1>
+        <h1 class="hero-title"><img class="avatar" id="heroAvatar" alt="" width="120" height="120"><span id="heroAlias"></span></h1>
         <p class="hero-name" id="heroName"></p>
         <p class="hero-role" id="heroRole"></p>
         <p class="hero-tagline" id="heroTagline"></p>
@@ -57,10 +57,9 @@
           <img class="star4" src="assets/img/star4.webp" alt="" width="720" height="719">
           <img class="star-cross" src="assets/img/flare-9.webp" alt="">
         </div>
-        <img class="avatar" id="heroAvatar" alt="" width="120" height="120">
         <img class="flare flare-a" src="assets/img/flare-19.webp" alt="">
       </div>
-      <a class="scroll-hint" href="#sobre-mi" aria-label="Bajar"><span></span></a>
+      <a class="scroll-hint" href="#sobre-mi" data-i18n-aria="scrollDown" aria-label="Bajar"><span></span></a>
     </section>
 
     <!-- SOBRE MÍ -->
@@ -136,7 +135,7 @@
         <h2 data-i18n="navLog">Bitácora</h2>
         <p class="section-sub" data-i18n="logSub">Registro de vuelo: lo que voy haciendo y aprendiendo.</p>
       </header>
-      <div class="filters reveal" id="logFilters" role="toolbar" aria-label="Filtrar bitácora"></div>
+      <div class="filters reveal" id="logFilters" role="toolbar" data-i18n-aria="filterLog" aria-label="Filtrar bitácora"></div>
       <ol class="log" id="logList"></ol>
     </section>
 
@@ -169,6 +168,7 @@
           <label><span data-i18n="formName">Nombre</span><input name="name" required autocomplete="name" maxlength="100"></label>
           <label><span data-i18n="formEmail">Correo</span><input name="email" type="email" required autocomplete="email" maxlength="254"></label>
           <label><span data-i18n="formMessage">Mensaje</span><textarea name="message" rows="5" required minlength="10" maxlength="3000"></textarea></label>
+          <div class="captcha" id="captchaBox" hidden></div>
           <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="btn btn-primary" type="submit" id="formSubmit"></button>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
@@ -184,7 +184,7 @@
       <ul>
         <li>Icons: <a href="https://heroicons.com" target="_blank" rel="noopener">Heroicons</a> by Tailwind Labs — MIT License</li>
         <li>Background pattern: <a href="https://heropatterns.com" target="_blank" rel="noopener">Hero Patterns</a> by Steve Schoger — CC BY 4.0</li>
-        <li>Sounds: <a href="https://heltonyan.itch.io/tranquility" target="_blank" rel="noopener">Helton Yan's Tranquility</a> by Helton Yan &amp; Roberto Araujo — CC BY 4.0 (recortados y convertidos)</li>
+        <li>Sounds: <a href="https://heltonyan.itch.io/tranquility" target="_blank" rel="noopener">Helton Yan's Tranquility</a> by Helton Yan &amp; Roberto Araujo — CC BY 4.0 (trimmed and converted)</li>
         <li>UI sounds: <a href="https://soundicons.net/en/" target="_blank" rel="noopener">SOUNDICONS</a> by BRAINSTORM co.,ltd.</li>
         <li>Four-point star: <a href="https://www.vecteezy.com" target="_blank" rel="noopener">Vecteezy.com</a></li>
         <li>Space skybox: <a href="https://www.kenney.nl" target="_blank" rel="noopener">Kenney</a> — CC0</li>

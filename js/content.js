@@ -43,6 +43,10 @@ window.SITE = {
   // ------------------------------------------------------------------
   contact: {
     formspreeId: "mljgzyqn",
+    // Captcha Cloudflare Turnstile: pega aquí la "Site Key" del widget (es pública).
+    // La "Secret Key" va en Formspree (form → Settings → CAPTCHA → Cloudflare Turnstile).
+    // Vacío = sin captcha.
+    turnstileSiteKey: "",
     fallbackEmail: "astradocharacther@gmail.com",
   },
 
@@ -204,7 +208,7 @@ window.SITE = {
       links: [],
     },
     {
-      title: "Crivo — FFT y encriptación",
+      title: { es: "Crivo — FFT y encriptación", en: "Crivo — FFT and encryption" },
       category: "academic",
       scope: "university",
       year: "2024",
